@@ -8,13 +8,25 @@ set(SDL2_DIR "C:/Users/filsh/Documents/sdl_game/SDL/lib/cmake/SDL2")
 
 find_package(SDL2 REQUIRED)
 
-include_directories(${SDL2_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/include)
 file(GLOB SOURCES "src/*.cpp")
+set(LIBRARY_SOURCES ${SOURCES})
 
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
+file(GLOB HEADERS "include/*.h")
+set(LIBRARY_HEADERS ${HEADERS})
+
+add_library(GAME_LIBRARY STATIC ${LIBRARY_SOURCES} ${LIBRARY_HEADERS})
+
+target_include_directories(GAME_LIBRARY
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+)
+
+include_directories(${SDL2_INCLUDE_DIRS})
+
+add_executable(${PROJECT_NAME} main.cpp )
 
 target_link_options(${PROJECT_NAME} PRIVATE "/ENTRY:WinMainCRTStartup")
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} GAME_LIBRARY)
 
 if (WIN32)
     add_custom_command(

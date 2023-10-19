@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[]) {
     Game* gameObj = new Game();
-    gameObj->Init();
+    gameObj->Init(500,720);
     gameObj->GameLoop();
     return 0;
 

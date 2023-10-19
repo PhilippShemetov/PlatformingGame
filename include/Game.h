@@ -10,7 +10,7 @@ private:
     static std::shared_ptr<SDL_Renderer> gameRendrerer;
     static void ShowMenu();
 public:
-    void Init();
+    void Init(int width = 640, int height = 360);
     void GameLoop();
     
 };
