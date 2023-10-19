@@ -7,14 +7,14 @@ void Game::Init(int width, int height)
 	{
 		std::cout << "System was initialized!" << std::endl;
 	
-        gameWindow = std::shared_ptr<SDL_Window>(SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0), SDL_DestroyWindow);
+        gameWindow = SDLWindowSptr(SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0), SDL_DestroyWindow);
         if (gameWindow) {
             std::cout << "Game Window created..." << std::endl;
         } else {
             std::cerr << SDL_GetError() << std::endl;
             std::exit(1);
         }
-        gameRendrerer = std::shared_ptr<SDL_Renderer>(SDL_CreateRenderer(gameWindow.get(),-1,0), SDL_DestroyRenderer);
+        gameRendrerer = SDLRendererSptr(SDL_CreateRenderer(gameWindow.get(),-1,0), SDL_DestroyRenderer);
         if (gameRendrerer) {
             std::cout << "Game Renderer created..." << std::endl;
         } else {
@@ -58,6 +58,7 @@ void Game::ShowMenu() {
     
 }
 
+
 Game::StateGame Game::gameState = Uninitialized;
-std::shared_ptr<SDL_Window> Game::gameWindow(nullptr);
-std::shared_ptr<SDL_Renderer> Game::gameRendrerer(nullptr);
+SDLWindowSptr Game::gameWindow(nullptr);
+SDLRendererSptr Game::gameRendrerer(nullptr);

@@ -4,9 +4,17 @@ project(sdl_game)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(SDL2_DIR "C:/Users/filsh/Documents/sdl_game/SDL/lib/cmake/SDL2")
-
+#Find SDL2 Core Library
+set(SDL2_DIR "${CMAKE_SOURCE_DIR}/SDL_Library/SDL/lib/cmake/SDL2")
 find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+#end
+
+#Find SDL2_image
+set(SDL2_image_DIR "${CMAKE_SOURCE_DIR}/SDL_Library/SDL_Image/lib/cmake/SDL2_image")
+find_package(SDL2_image REQUIRED)
+include_directories("${CMAKE_SOURCE_DIR}/SDL_Library/SDL_Image/include")
+message("Hello! ${SDL2_IMAGE_INCLUDE_DIRS}")
 
 file(GLOB SOURCES "src/*.cpp")
 set(LIBRARY_SOURCES ${SOURCES})
@@ -21,12 +29,12 @@ target_include_directories(GAME_LIBRARY
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
 
-include_directories(${SDL2_INCLUDE_DIRS})
+
 
 add_executable(${PROJECT_NAME} main.cpp )
 
 target_link_options(${PROJECT_NAME} PRIVATE "/ENTRY:WinMainCRTStartup")
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} GAME_LIBRARY)
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} GAME_LIBRARY)
 
 if (WIN32)
     add_custom_command(
